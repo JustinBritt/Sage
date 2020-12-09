@@ -30,7 +30,6 @@ namespace Highpoint.Sage.SimCore {
         private CancellationToken m_renderCancellationToken;
         private CancellationTokenSource m_renderCancellationTokenSource;
         private Task m_renderTask;
-        private Thread m_renderThread;
         #endregion
 
         /// <summary>
@@ -197,8 +196,6 @@ namespace Highpoint.Sage.SimCore {
             m_renderCancellationTokenSource.Cancel();
 
             m_renderCancellationTokenSource.Dispose();
-
-            m_renderThread?.Abort();
         }
 
         internal void Begin(
@@ -273,8 +270,6 @@ namespace Highpoint.Sage.SimCore {
         private bool m_renderPending;
         private bool m_abortRendering = false;
         private void RunRendering() {
-            _Debug.Assert(Thread.CurrentThread.Equals(m_renderThread));
-
             while (!m_abortRendering) {
                 if (m_executive.State.Equals(ExecState.Running)) {
                     int nTicksToSleep = 500; // Check to see if we've changed frame rate from zero, every half-second.
