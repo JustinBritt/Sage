@@ -28,6 +28,7 @@ namespace Highpoint.Sage.SimCore {
         private DateTime m_realWorldStartTime;
         private DateTime m_simWorldStartTime;
         private CancellationToken m_renderCancellationToken;
+        private CancellationTokenSource m_renderCancellationTokenSource;
         private Task m_renderTask;
         private Thread m_renderThread;
         #endregion
