@@ -359,6 +359,7 @@ namespace Highpoint.Sage.Randoms {
         #region Private Fields
         private static readonly int s_min_Buffer_Size = 10;
         private readonly object m_lockObject = new object();
+		private Task m_bufferTask;
         private Thread m_bufferThread;
         private int m_bufferSize;
         private ulong[] m_bufferA;
