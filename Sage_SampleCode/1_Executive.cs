@@ -686,7 +686,7 @@ optimal rate at which the simulation clock runs, relative to the wall clock,
 and how often the ""Render"" event fires. We set up an executive to run for 
 ten minutes' simulation time, paced to run at ten times the wall clock rate,
 that is, for one minute of wall clock time. The model updates its internal
-state every five milliseconds of simulation time and firese a ""Render"" event
+state every five milliseconds of simulation time and fires a ""Render"" event
  ten times per second of wall-clock time.")]
             public static void Run()
             {
