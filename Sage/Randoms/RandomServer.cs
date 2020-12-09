@@ -393,11 +393,20 @@ namespace Highpoint.Sage.Randoms {
 			for ( int i = 0 ; i < m_bufferSize ; i++ ) m_bufferA[i] = Mtf.genrand_int32();
 			m_inUse = m_bufferA;
 			m_beingFilled = m_bufferB;
-			m_bufferThread = new Thread(FillBuffer);
-			m_bufferThread.Start();
-			// Must wait for the buffer thread to lock on the lockObject.
-		    while (!m_bufferThread.ThreadState.Equals(ThreadState.WaitSleepJoin)) {/* spinwait for the buffer thread to lock on the lockObject.*/ }
-		    m_bufferThread.IsBackground = true; // Allow thread termination.
+			
+			m_bufferCancellationTokenSource = new CancellationTokenSource();
+
+			m_bufferCancellationToken = m_bufferCancellationTokenSource.Token;
+
+			m_bufferTask = Task.Run(() =>
+			{
+				if (m_bufferCancellationToken.IsCancellationRequested)
+				{
+				}
+
+				FillBuffer();
+			},
+			m_bufferCancellationToken);
 		}
 
 		private ulong BufferedGetNextULong(){
@@ -447,11 +456,9 @@ namespace Highpoint.Sage.Randoms {
 
 		#region IDisposable Members
 		public override void Dispose() {
-			try
-			{
-			    m_bufferThread?.Abort();
-			}
-			catch(ThreadStateException){}
+			m_bufferCancellationTokenSource.Cancel();
+
+			m_bufferCancellationTokenSource.Dispose();
 		}
 
 		#endregion
