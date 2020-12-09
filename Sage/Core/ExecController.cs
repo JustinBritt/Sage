@@ -40,7 +40,7 @@ namespace Highpoint.Sage.SimCore {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecController"/> class. The caller may specify userData.
-        /// <br></br>Frame rate must be from zero to 25. If zero, no contraint is imposed.
+        /// <br></br>Frame rate must be from zero to 25. If zero, no constraint is imposed.
         /// </summary>
         /// <param name="exec">The executive being controlled.</param>
         /// <param name="scale">The (logarithmic) run time scale. If set to double.MinValue, the model runs at full speed.</param>
@@ -62,7 +62,7 @@ namespace Highpoint.Sage.SimCore {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecController"/> class. The caller may specify userData.
-        /// <br></br>Frame rate must be from zero to 25. If zero, no contraint is imposed. For this constructor,
+        /// <br></br>Frame rate must be from zero to 25. If zero, no constraint is imposed. For this constructor,
         /// the executive will be set while the model sets its ExecController.
         /// </summary>
         /// <param name="scale">The (logarithmic) run time scale. If set to double.MinValue, the model runs at full speed.</param>
