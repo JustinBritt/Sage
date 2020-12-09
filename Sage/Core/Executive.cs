@@ -401,11 +401,21 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
             m_startTime = startTime;
         }
 
-        public void Start() {
+        public void Start() 
+        {
+            m_pauseMgrCancellationTokenSource = new CancellationTokenSource();
 
-            m_pauseMgr = new Thread(new ThreadStart(_DoPause));
-            m_pauseMgr.Name = "Pause Management";
-            m_pauseMgr.Start();
+            m_pauseMgrCancellationToken = m_pauseMgrCancellationTokenSource.Token;
+
+            m_pauseMgr = Task.Run(() =>
+            {
+                if (m_pauseMgrCancellationToken.IsCancellationRequested)
+                {
+                }
+
+                _DoPause();
+            },
+            m_pauseMgrCancellationToken);
 
             lock (this) {
 
@@ -589,7 +599,7 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
                 //}
             }
 
-            m_pauseMgr.Abort();
+            m_pauseMgrCancellationTokenSource.Cancel();
 
             m_executiveFinished?.Invoke(this);
 
@@ -643,7 +653,7 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
 
         private object m_pauseLock = new object();
         private object m_runLock = new object();
-        private Thread m_pauseMgr = null;
+        private Task m_pauseMgr = null;
         private CancellationToken m_pauseMgrCancellationToken;
         private CancellationTokenSource m_pauseMgrCancellationTokenSource;
         private void _DoPause() {
@@ -859,8 +869,17 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
         /// Must call this before disposing of a model.
         /// </summary>
         /// <value></value>
-        public void Dispose() {
-            try { if (m_pauseMgr != null && m_pauseMgr.IsAlive) m_pauseMgr.Abort(); } catch { }
+        public void Dispose() 
+        {
+            if (m_pauseMgr != null)
+            {
+                if (!m_pauseMgr.IsCanceled)
+                {
+                    m_pauseMgrCancellationTokenSource.Cancel();
+                }
+
+                m_pauseMgrCancellationTokenSource.Dispose();
+            }
         }
 
         /// <summary>
