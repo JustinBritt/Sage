@@ -263,7 +263,7 @@ namespace Highpoint.Sage.SimCore {
         /// <param name="exec"></param>
         /// <param name="userData"></param>
         private void RetardExecution(IExecutive exec, object userData) {
-            if ( Math.Abs(m_linearScale) > double.Epsilon ) Thread.Sleep((TimeSpan)userData);
+            if ( Math.Abs(m_linearScale) > double.Epsilon ) Task.Delay((TimeSpan)userData).Wait();
         }
 
 
@@ -277,7 +277,7 @@ namespace Highpoint.Sage.SimCore {
                     {
 
                         nTicksToSleep = (int) TimeSpan.FromSeconds(1.0/m_frameRate).TotalMilliseconds;
-                        Thread.Sleep(nTicksToSleep);
+                        Task.Delay(nTicksToSleep).Wait();
 
                         if (!m_renderPending)
                         {
@@ -293,10 +293,10 @@ namespace Highpoint.Sage.SimCore {
                     }
                     else
                     {
-                        Thread.Sleep(nTicksToSleep);
+                        Task.Delay(nTicksToSleep).Wait();
                     }
                 } else if (m_executive.State.Equals(ExecState.Paused)) {
-                    Thread.Sleep(500);
+                    Task.Delay(500).Wait();
                     m_realWorldStartTime = DateTime.Now;
                     m_simWorldStartTime = m_executive.Now;
                 } else if (m_executive.State.Equals(ExecState.Stopped)) {
