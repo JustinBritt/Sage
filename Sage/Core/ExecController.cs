@@ -209,11 +209,7 @@ namespace Highpoint.Sage.SimCore {
 
             if (m_renderTask != null && m_renderCancellationTokenSource != null && m_renderTask.Status == TaskStatus.Running)
             {
-                m_abortRendering = true;
-
                 m_renderCancellationTokenSource.Cancel();
-
-                m_abortRendering = false;
             }
 
             m_renderCancellationTokenSource = new CancellationTokenSource();
@@ -267,7 +263,6 @@ namespace Highpoint.Sage.SimCore {
 
 
         private bool m_renderPending;
-        private bool m_abortRendering = false;
         private void RunRendering() {
             while (!m_renderCancellationToken.IsCancellationRequested) {
                 if (m_executive.State.Equals(ExecState.Running)) {
