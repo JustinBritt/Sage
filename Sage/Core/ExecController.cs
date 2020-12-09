@@ -201,25 +201,41 @@ namespace Highpoint.Sage.SimCore {
             m_renderThread?.Abort();
         }
 
-        internal void Begin(IExecutive iExecutive, object userData) {
-            if ( iExecutive != m_executive ) throw new InvalidOperationException("ExecController is starting within a model whose executive is not the same one to which it was initialized.");
+        internal void Begin(
+            IExecutive iExecutive,
+            object userData)
+        {
+            if (iExecutive != m_executive) throw new InvalidOperationException("ExecController is starting within a model whose executive is not the same one to which it was initialized.");
+
             m_executive.ClockAboutToChange -= m_doThrottle; // In case we were listening from an earlier run.
             m_executive.ClockAboutToChange += m_doThrottle;
-            if (m_renderThread != null && m_renderThread.ThreadState == ThreadState.Running)
+
+            if (m_renderTask != null && m_renderCancellationTokenSource != null && m_renderTask.Status == TaskStatus.Running)
             {
                 m_abortRendering = true;
                 // ReSharper disable once EmptyEmbeddedStatement
-                while (m_renderThread.IsAlive);
-                m_abortRendering = false;
+                //while (m_renderThread.IsAlive);
+                //m_abortRendering = false;
+
+                m_renderCancellationTokenSource.Cancel();
             }
-            m_renderThread = new Thread(RunRendering)
-            {
-                IsBackground = true,
-                Name = "Rendering Thread"
-            };
+
+            m_renderCancellationTokenSource = new CancellationTokenSource();
+
+            m_renderCancellationToken = m_renderCancellationTokenSource.Token;
+
             m_realWorldStartTime = DateTime.Now;
             m_simWorldStartTime = iExecutive.Now;
-            m_renderThread.Start();
+
+            m_renderTask = Task.Run(() =>
+            {
+                if (m_renderCancellationToken.IsCancellationRequested)
+                {
+                }
+
+                RunRendering();
+            },
+            m_renderCancellationToken);
         }
 
         private void ThrottleExecution(IExecutive exec) {
