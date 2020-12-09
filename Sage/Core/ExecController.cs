@@ -210,11 +210,10 @@ namespace Highpoint.Sage.SimCore {
             if (m_renderTask != null && m_renderCancellationTokenSource != null && m_renderTask.Status == TaskStatus.Running)
             {
                 m_abortRendering = true;
-                // ReSharper disable once EmptyEmbeddedStatement
-                //while (m_renderThread.IsAlive);
-                //m_abortRendering = false;
 
                 m_renderCancellationTokenSource.Cancel();
+
+                m_abortRendering = false;
             }
 
             m_renderCancellationTokenSource = new CancellationTokenSource();
