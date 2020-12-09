@@ -11,11 +11,10 @@ namespace Sage_SampleCode {
 
         static void Main(string[] args)
         {
-
-            Console.BufferWidth = 132;
+            Console.BufferWidth = Console.LargestWindowWidth;
             Console.BufferHeight = 9999;
-            Console.WindowWidth = 132;
-            Console.WindowHeight = 80;
+            Console.WindowWidth = Console.LargestWindowWidth;
+            Console.WindowHeight = Console.LargestWindowHeight;
 
             Demonstrate(Demo.Executive.SynchronousEvents.HelloWorld.Run);
             Demonstrate(Demo.Executive.SynchronousEvents.TwoCallbacksOutOfSequence.Run);
