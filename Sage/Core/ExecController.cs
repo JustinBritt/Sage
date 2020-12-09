@@ -193,8 +193,6 @@ namespace Highpoint.Sage.SimCore {
 
         public void Dispose()
         {
-            m_renderCancellationTokenSource.Cancel();
-
             m_renderCancellationTokenSource.Dispose();
         }
 
