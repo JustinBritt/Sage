@@ -269,7 +269,7 @@ namespace Highpoint.Sage.SimCore {
         private bool m_renderPending;
         private bool m_abortRendering = false;
         private void RunRendering() {
-            while (!m_abortRendering) {
+            while (!m_renderCancellationToken.IsCancellationRequested) {
                 if (m_executive.State.Equals(ExecState.Running)) {
                     int nTicksToSleep = 500; // Check to see if we've changed frame rate from zero, every half-second.
                     if (m_frameRate > 0)
