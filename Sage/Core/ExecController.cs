@@ -27,6 +27,7 @@ namespace Highpoint.Sage.SimCore {
         private TimeSpan m_maxNap;
         private DateTime m_realWorldStartTime;
         private DateTime m_simWorldStartTime;
+        private Task m_renderTask;
         private Thread m_renderThread;
         #endregion
 
