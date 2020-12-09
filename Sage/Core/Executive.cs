@@ -644,6 +644,7 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
         private object m_pauseLock = new object();
         private object m_runLock = new object();
         private Thread m_pauseMgr = null;
+        private CancellationToken m_pauseMgrCancellationToken;
         private void _DoPause() {
             try {
                 while (true) {
