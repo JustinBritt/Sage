@@ -2,6 +2,7 @@
 using System;
 using Trace = System.Diagnostics.Debug;
 using System.Threading;
+using System.Threading.Tasks;
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace Highpoint.Sage.Randoms {
