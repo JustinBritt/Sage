@@ -30,7 +30,7 @@ namespace Highpoint.Sage.Resources {
 		/// at creation has its full capacity available.</param>
 		/// <param name="isAtomic">True if the Resource is atomic. Atomicity infers that the resource is granted all-or-nothing.</param>
 		/// <param name="isDiscrete">True if the Resource is discrete. Discreteness infers that the resource is granted in unitary amounts.</param>
-		/// <param name="isPersistent">True if the Resource is persistent. Atomicity infers that the resource, once granted, must be returned to the pool.</param>
+		/// <param name="isPersistent">True if the Resource is persistent. Persistence infers that the resource, once granted, must be returned to the pool.</param>
 		/// <param name="supportsPriorities">True if this resource is able to treat resource requests in a prioritized order.</param>
 		public SelfManagingResource(IModel model, string name, Guid guid, double capacity, bool isAtomic, bool isDiscrete, bool isPersistent, bool supportsPriorities = false) {
 			m_baseResource = new Resource(model,name,guid,capacity,capacity,isAtomic,isDiscrete,isPersistent,this);
@@ -59,7 +59,7 @@ namespace Highpoint.Sage.Resources {
 		/// <param name="available">The availability of the Resource. How much there <b>is, at start,</b> to be granted.</param>
 		/// <param name="isAtomic">True if the Resource is atomic. Atomicity infers that the resource is granted all-or-nothing.</param>
 		/// <param name="isDiscrete">True if the Resource is discrete. Discreteness infers that the resource is granted in unitary amounts.</param>
-		/// <param name="isPersistent">True if the Resource is persistent. Atomicity infers that the resource, once granted, must be returned to the pool.</param>
+		/// <param name="isPersistent">True if the Resource is persistent. Persistence infers that the resource, once granted, must be returned to the pool.</param>
 		/// <param name="supportsPriorities">True if this resource is able ot treat resource requests in a prioritized order.</param>
         public SelfManagingResource(IModel model, string name, Guid guid, double capacity, double available, bool isAtomic, bool isDiscrete, bool isPersistent, bool supportsPriorities = false) {
             m_baseResource = new Resource(model, name, guid, capacity, available, isAtomic, isDiscrete, isPersistent, this);

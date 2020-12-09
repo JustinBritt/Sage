@@ -37,7 +37,7 @@ namespace Highpoint.Sage.Resources {
 		/// <param name="availability">The amount of this resource that is initially available.</param>
 		/// <param name="isAtomic">True if the Resource is atomic. Atomicity infers that the resource is granted all-or-nothing.</param>
 		/// <param name="isDiscrete">True if the Resource is discrete. Discreteness infers that the resource is granted in unitary amounts.</param>
-		/// <param name="isPersistent">True if the Resource is persistent. Atomicity infers that the resource, once granted, must be returned to the pool.</param>
+		/// <param name="isPersistent">True if the Resource is persistent. Persistence infers that the resource, once granted, must be returned to the pool.</param>
 		public Resource(IModel model, string name, Guid guid, double capacity, double availability, bool isAtomic, bool isDiscrete, bool isPersistent) {
 			m_model = model;
 			m_name = name;
@@ -73,7 +73,7 @@ namespace Highpoint.Sage.Resources {
         /// <param name="availability">The initial available quantity of the resource.</param>
         /// <param name="isAtomic">True if the Resource is atomic. Atomicity infers that the resource is granted all-or-nothing.</param>
         /// <param name="isDiscrete">True if the Resource is discrete. Discreteness infers that the resource is granted in unitary amounts.</param>
-        /// <param name="isPersistent">True if the Resource is persistent. Atomicity infers that the resource, once granted, must be returned to the pool.</param>
+        /// <param name="isPersistent">True if the Resource is persistent. Persistence infers that the resource, once granted, must be returned to the pool.</param>
         /// <param name="wrappedByWhom">A reference to the outer object which this instance exists to represent.</param>
 		public Resource(IModel model, string name, Guid guid, double capacity, double availability, bool isAtomic, bool isDiscrete, bool isPersistent, IResource wrappedByWhom) {
             InitializeIdentity(model, name, null, guid);
