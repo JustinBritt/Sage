@@ -436,21 +436,20 @@ namespace Highpoint.Sage.Randoms {
 
 
 		private void FillBuffer(){
-            try {
-                unchecked {
-                    lock (m_lockObject) {
-                        while (true) {
-                            for (int i = 0 ; i < m_bufferSize ; i++)
-                                m_beingFilled[i] = Mtf.genrand_int32();
-                            m_nFills++; // Mark this iteration complete.
-                            Monitor.Pulse(m_lockObject); // In case SwapBuffers is waiting.
-                            Monitor.Wait(m_lockObject);
-                        }
-                    }
-                }
-            } catch (ThreadAbortException) {
-                Thread.ResetAbort();
-            }
+			unchecked
+			{
+				lock (m_lockObject)
+				{
+					while (true)
+					{
+						for (int i = 0; i < m_bufferSize; i++)
+							m_beingFilled[i] = Mtf.genrand_int32();
+						m_nFills++; // Mark this iteration complete.
+						Monitor.Pulse(m_lockObject); // In case SwapBuffers is waiting.
+						Monitor.Wait(m_lockObject);
+					}
+				}
+			}
 		}
 
 		#region IDisposable Members
