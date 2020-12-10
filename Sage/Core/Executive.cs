@@ -1110,8 +1110,14 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
                 Debugger.Break();
             }
 
-            Thread.CurrentThread.Abort();
-
+            // https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/thread-abort-obsolete
+            try
+            {
+                Thread.CurrentThread.Abort();
+            }
+            catch(PlatformNotSupportedException e)
+            {
+            }
         }
         
         private void _Resume(IExecutive exec, object userData){
