@@ -445,7 +445,14 @@ namespace Highpoint.Sage.Randoms {
 		public override void Dispose() {
 			try
 			{
-			    m_bufferThread?.Abort();
+				// https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/thread-abort-obsolete
+				try
+				{
+					m_bufferThread?.Abort();
+				}
+				catch (PlatformNotSupportedException e)
+				{
+				}				
 			}
 			catch(ThreadStateException){}
 		}
