@@ -441,7 +441,7 @@ namespace Highpoint.Sage.Randoms {
 
 					m_fillBufferInnerLoopTaskCompletionSource = new TaskCompletionSource<ulong[]>();
 
-					Task.Factory.StartNew(() =>
+					Task.Run(() =>
 					{
 						if (m_fillBufferInnerLoopCancellationToken.IsCancellationRequested)
 						{
