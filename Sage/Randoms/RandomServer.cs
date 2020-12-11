@@ -458,6 +458,8 @@ namespace Highpoint.Sage.Randoms {
 		#region IDisposable Members
 		public override void Dispose()
 		{
+			m_fillBufferInnerLoopCancellationTokenSource.Dispose();
+
 			m_fillBufferOuterLoopCancellationTokenSource.Dispose();
 		}
 
