@@ -588,7 +588,14 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
                 //}
             }
 
-            m_pauseMgr.Abort();
+            // https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/thread-abort-obsolete
+            try
+            {
+                m_pauseMgr.Abort();
+            }
+            catch (PlatformNotSupportedException e)
+            {
+            }
 
             m_executiveFinished?.Invoke(this);
 
