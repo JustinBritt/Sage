@@ -879,6 +879,8 @@ NOTE - the engine will still run, we'll just ignore it if an event is requested 
                 }
 
                 m_pauseMgrCancellationTokenSource.Dispose();
+
+                m_pauseMgr.Dispose();
             }
         }
 
