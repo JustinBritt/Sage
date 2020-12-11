@@ -466,6 +466,8 @@ namespace Highpoint.Sage.Randoms {
 
 			m_fillBufferInnerLoopTask.Dispose();
 
+			m_fillBufferInnerLoopTaskCompletionSource.Task.Dispose();
+
 			m_fillBufferOuterLoopCancellationTokenSource.Dispose();
 
 			m_fillBufferOuterLoopTask.Dispose();
