@@ -359,9 +359,9 @@ namespace Highpoint.Sage.Randoms {
         #region Private Fields
         private static readonly int s_min_Buffer_Size = 10;
         private readonly object m_lockObject = new object();
-		private CancellationToken m_bufferCancellationToken;
-		private CancellationTokenSource m_bufferCancellationTokenSource;
-		private Task m_bufferTask;
+		private CancellationToken m_fillBufferOuterLoopCancellationToken;
+		private CancellationTokenSource m_fillBufferOuterLoopCancellationTokenSource;
+		private Task m_fillBufferOuterLoopTask;
         private int m_bufferSize;
         private ulong[] m_bufferA;
         private ulong[] m_bufferB;
@@ -393,19 +393,19 @@ namespace Highpoint.Sage.Randoms {
 			m_inUse = m_bufferA;
 			m_beingFilled = m_bufferB;
 			
-			m_bufferCancellationTokenSource = new CancellationTokenSource();
+			m_fillBufferOuterLoopCancellationTokenSource = new CancellationTokenSource();
 
-			m_bufferCancellationToken = m_bufferCancellationTokenSource.Token;
+			m_fillBufferOuterLoopCancellationToken = m_fillBufferOuterLoopCancellationTokenSource.Token;
 
-			m_bufferTask = Task.Run(() =>
+			m_fillBufferOuterLoopTask = Task.Run(() =>
 			{
-				if (m_bufferCancellationToken.IsCancellationRequested)
+				if (m_fillBufferOuterLoopCancellationToken.IsCancellationRequested)
 				{
 				}
 
 				FillBuffer();
 			},
-			m_bufferCancellationToken);
+			m_fillBufferOuterLoopCancellationToken);
 		}
 
 		private ulong BufferedGetNextULong(){
@@ -455,7 +455,7 @@ namespace Highpoint.Sage.Randoms {
 		#region IDisposable Members
 		public override void Dispose()
 		{
-			m_bufferCancellationTokenSource.Dispose();
+			m_fillBufferOuterLoopCancellationTokenSource.Dispose();
 		}
 
 		#endregion
