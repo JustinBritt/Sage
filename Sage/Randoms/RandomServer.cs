@@ -359,6 +359,9 @@ namespace Highpoint.Sage.Randoms {
         #region Private Fields
         private static readonly int s_min_Buffer_Size = 10;
         private readonly object m_lockObject = new object();
+		private CancellationToken m_fillBufferInnerLoopCancellationToken;
+		private CancellationTokenSource m_fillBufferInnerLoopCancellationTokenSource;
+		private Task m_fillBufferInnerLoopTask;
 		private CancellationToken m_fillBufferOuterLoopCancellationToken;
 		private CancellationTokenSource m_fillBufferOuterLoopCancellationTokenSource;
 		private Task m_fillBufferOuterLoopTask;
