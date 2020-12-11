@@ -362,6 +362,7 @@ namespace Highpoint.Sage.Randoms {
 		private CancellationToken m_fillBufferInnerLoopCancellationToken;
 		private CancellationTokenSource m_fillBufferInnerLoopCancellationTokenSource;
 		private Task m_fillBufferInnerLoopTask;
+		private TaskCompletionSource<ulong[]> m_fillBufferInnerLoopTaskCompletionSource;
 		private CancellationToken m_fillBufferOuterLoopCancellationToken;
 		private CancellationTokenSource m_fillBufferOuterLoopCancellationTokenSource;
 		private Task m_fillBufferOuterLoopTask;
