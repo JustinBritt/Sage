@@ -464,7 +464,11 @@ namespace Highpoint.Sage.Randoms {
 		{
 			m_fillBufferInnerLoopCancellationTokenSource.Dispose();
 
+			m_fillBufferInnerLoopTask.Dispose();
+
 			m_fillBufferOuterLoopCancellationTokenSource.Dispose();
+
+			m_fillBufferOuterLoopTask.Dispose();
 		}
 
 		#endregion
