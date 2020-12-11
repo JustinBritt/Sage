@@ -421,37 +421,40 @@ namespace Highpoint.Sage.Randoms {
 			}
 		}
 
-		private void SwapBuffers(){
-			lock ( m_lockObject ) {
-				// The next few lines make sure that we can't come back and swap buffers
-				// before the producer thread has had a chance to refill the back buffer.
-				while ( m_nFills != m_nExpectedFills ){
-					Monitor.Pulse(m_lockObject);
-					Monitor.Wait(m_lockObject);
-				}
-				m_nExpectedFills = m_nFills+1;
-				ulong[] tmp = m_inUse;
-				m_inUse = m_beingFilled;
-				m_beingFilled = tmp;
-				m_nextInUseCell = 0;
-				Monitor.Pulse(m_lockObject);
-			}
+		private void SwapBuffers()
+		{
+			ulong[] tmp = m_inUse;
+			m_inUse = m_fillBufferInnerLoopTaskCompletionSource.Task.Result;
+			m_beingFilled = tmp;
+			m_nextInUseCell = 0;
 		}
 
-
-		private void FillBuffer(){
+		private void FillBuffer()
+		{
 			unchecked
 			{
-				lock (m_lockObject)
+				while (true)
 				{
-					while (true)
+					m_fillBufferInnerLoopCancellationTokenSource = new CancellationTokenSource();
+
+					m_fillBufferInnerLoopCancellationToken = m_fillBufferInnerLoopCancellationTokenSource.Token;
+
+					m_fillBufferInnerLoopTaskCompletionSource = new TaskCompletionSource<ulong[]>();
+
+					Task.Factory.StartNew(() =>
 					{
+						if (m_fillBufferInnerLoopCancellationToken.IsCancellationRequested)
+						{
+						}
+
+						ulong[] filled = new ulong[m_bufferSize];
+
 						for (int i = 0; i < m_bufferSize; i++)
-							m_beingFilled[i] = Mtf.genrand_int32();
-						m_nFills++; // Mark this iteration complete.
-						Monitor.Pulse(m_lockObject); // In case SwapBuffers is waiting.
-						Monitor.Wait(m_lockObject);
-					}
+							filled[i] = Mtf.genrand_int32();
+
+						m_fillBufferInnerLoopTaskCompletionSource.SetResult(filled);
+					},
+					m_fillBufferInnerLoopCancellationToken);
 				}
 			}
 		}
