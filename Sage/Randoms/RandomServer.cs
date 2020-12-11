@@ -358,7 +358,6 @@ namespace Highpoint.Sage.Randoms {
 
         #region Private Fields
         private static readonly int s_min_Buffer_Size = 10;
-        private readonly object m_lockObject = new object();
 		private CancellationToken m_fillBufferInnerLoopCancellationToken;
 		private CancellationTokenSource m_fillBufferInnerLoopCancellationTokenSource;
 		private Task m_fillBufferInnerLoopTask;
@@ -372,8 +371,6 @@ namespace Highpoint.Sage.Randoms {
         private ulong[] m_inUse;
         private int m_nextInUseCell;
         private ulong[] m_beingFilled;
-        private int m_nFills;
-        private int m_nExpectedFills = 1; 
         #endregion
 
         public BufferedRandomChannel(ulong seed, int bufferSize):base(seed){
