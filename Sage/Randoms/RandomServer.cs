@@ -401,7 +401,7 @@ namespace Highpoint.Sage.Randoms {
 
 			m_fillBufferOuterLoopCancellationToken = m_fillBufferOuterLoopCancellationTokenSource.Token;
 
-			m_fillBufferOuterLoopTask = Task.Run(() =>
+			m_fillBufferOuterLoopTask = Task.Factory.StartNew(() =>
 			{
 				if (m_fillBufferOuterLoopCancellationToken.IsCancellationRequested)
 				{
@@ -409,7 +409,9 @@ namespace Highpoint.Sage.Randoms {
 
 				FillBuffer();
 			},
-			m_fillBufferOuterLoopCancellationToken);
+			m_fillBufferOuterLoopCancellationToken,
+			TaskCreationOptions.LongRunning,
+			TaskScheduler.Default);
 		}
 
 		private ulong BufferedGetNextULong(){
