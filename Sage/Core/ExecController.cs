@@ -190,7 +190,14 @@ namespace Highpoint.Sage.SimCore {
 
         public void Dispose()
         {
-            m_renderThread?.Abort();
+            // https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/thread-abort-obsolete
+            try
+            {
+                m_renderThread?.Abort();
+            }
+            catch (PlatformNotSupportedException e)
+            {
+            }
         }
 
         internal void Begin(IExecutive iExecutive, object userData) {
